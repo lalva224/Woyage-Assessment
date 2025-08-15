@@ -1,6 +1,8 @@
 from config import s3_client,BUCKET_NAME
 from models import FileResponse,File
+import logging
 
+logger = logging.getLogger(__name__)
 
 #reads s3 file given the file_path.
 async def read_s3_file(file_path: str) -> str:
@@ -13,11 +15,14 @@ async def read_s3_file(file_path: str) -> str:
     except s3_client.exceptions.NoSuchKey:
         return None
     except Exception as e:
-        print(f"Error reading S3 file: {e}")
+        logger.info(f"Error reading S3 file: {e}")
         return None
 #searches mongoDB, using beanie model, for matching search term.
 async def search_file(search_term:str)->File | None:
     file = await File.find_one({"name":search_term})
-    print(file)
+    if file:
+        logger.info("File Not Found:",file)
+    else:
+        logger.warning("File Not found")
     return file
 
