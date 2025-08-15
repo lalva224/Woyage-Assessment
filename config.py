@@ -1,7 +1,10 @@
 from dotenv import load_dotenv
 import os 
 import boto3
+import logging
 load_dotenv()
+
+logging.basicConfig(level=logging.INFO)
 
 #using python-dotenv. It is better to load them all in a config file at once.
 MONGO_URI = os.getenv("MONGO_URI")
