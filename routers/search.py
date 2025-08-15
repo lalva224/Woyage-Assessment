@@ -6,6 +6,9 @@ router = APIRouter(prefix="/content/search")
 
 @router.get("/",response_model=APIResponse)
 async def search(search_term:str):
+    """
+    This endpoint calls crud files, first for retrieving the MongoDB Document (File). Then, for reading the contents
+    """
     try:
         file:File = await search_file(search_term)
         if not file:
@@ -23,6 +26,6 @@ async def search(search_term:str):
             )
         return api_response
     except Exception as e:
-        return HTTPException(status_code=500,detail=str(e))
+        raise HTTPException(status_code=500,detail=str(e))
 
 
