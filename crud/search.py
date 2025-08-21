@@ -21,7 +21,7 @@ async def read_s3_file(file_path: str) -> str:
 async def search_file(search_term:str)->File | None:
     file = await File.find_one({"name":search_term})
     if file:
-        logger.info("File Not Found:",file)
+        logger.info(f"File Found: {file}",)
     else:
         logger.warning("File Not found")
     return file

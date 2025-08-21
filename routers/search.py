@@ -10,7 +10,7 @@ async def search(search_term:str):
     This endpoint calls crud files, first for retrieving the MongoDB Document (File). Then, for reading the contents
     """
     try:
-        file:File = await search_file(search_term)
+        file:File = await search_file(search_term.lower())
         if not file:
             return APIResponse(
                 result = "failure",
@@ -18,6 +18,7 @@ async def search(search_term:str):
                 data = None
             )
         content:str =await read_s3_file(file.file_path)
+        print(content)
         fileResponse = FileResponse(file_path=file.file_path,file_content=content)
         api_response = APIResponse(
             result="success",
